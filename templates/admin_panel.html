@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理员面板</title>
+    <!-- 这里可以添加CSS样式或引用Bootstrap等前端框架 -->
+</head>
+<body>
+    <div class="container">
+        <h1>管理员面板</h1>
+        <p>欢迎回来，管理员！</p>
+
+        <!-- 显示所有用户信息的表格 -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>用户名   </th>
+                    <th>删除该用户</th> <!-- 根据实际数据库结构添加更多列 -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user[1] }}</td> <!-- 假设用户名存储在username字段 -->
+                    <!-- 添加删除按钮 -->
+                    <td>
+                        <form action="{{ url_for('delete_user', username=user[1]) }}" method="post" onsubmit="return confirm('确定要删除此用户吗？');">
+                            <button type="submit" class="btn btn-danger">删除用户</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th> 待添加的用户知识库   </th>
+                    <th> 删除该文件 </th> <!-- 根据实际数据库结构添加更多列 -->
+                    <th> 添加该文件到知识库 </th> <!-- 根据实际数据库结构添加更多列 -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for file in files %}
+                <tr>
+                    <td>{{ file }}</td> <!-- 假设用户名存储在username字段 -->
+                    <!-- 添加删除按钮 -->
+                    <td>
+                        <form action="{{ url_for('delete_file', filename = file) }}" method="post" onsubmit="return confirm('确定要删除此知识库吗？');">
+                            <button type="submit" class="btn btn-danger">删除知识库</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="{{ url_for('add_file', filename=file) }}" method="post" onsubmit="return confirm('确定要添加此知识库吗？');">
+                            <button type="submit" class="btn btn-danger">添加知识库</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th> 已添加的知识库   </th>
+                    <th> 删除该文件 </th> <!-- 根据实际数据库结构添加更多列 -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for file in add_files %}
+                <tr>
+                    <td>{{ file }}</td> <!-- 假设用户名存储在username字段 -->
+                    <!-- 添加删除按钮 -->
+                    <td>
+                        <form action="{{ url_for('delete_added_file', filename=file) }}" method="post">
+                            <button type="submit" class="btn btn-danger">删除</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- 返回按钮 -->
+        <a href="{{ url_for('logout') }}" class="btn btn-danger">退出登录</a>
+    </div>
+
+    <!-- 这里可以添加JavaScript代码或引用jQuery等库 -->
+</body>
+</html>

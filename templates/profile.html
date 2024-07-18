@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link href="../static/profile.css" rel="stylesheet">
+</head>
+<body>
+    <script>
+        <!-- 通过response获取新的回复 -->
+        function startStream(userInput) {
+            const eventSource = new EventSource(`/stream_response?user_input=${userInput}`);
+            console.log('发送成功');
+            const chatHistory = document.getElementById('chat_history');
+            const newMessage = document.createElement('div');
+            newMessage.className = 'chat-bubble ai';
+            newMessage.textContent = 'AI: ';
+            chatHistory.appendChild(newMessage);
+            eventSource.onmessage = function(event) {
+                const data = event.data;
+                console.log('Received data:', data);
+                newMessage.textContent += data;
+            };
+            sessionStorage
+            eventSource.onerror = function(error) {
+                console.error('Error occurred:', error);
+                eventSource.close();
+            };
+        }
+
+        function sendMessage(username) {
+            const userInput = document.getElementById('user_input').value;
+            const chatHistory = document.getElementById('chat_history');
+            const userMessage = document.createElement('div');
+            userMessage.className = 'chat-bubble user';
+            userMessage.textContent = `${username}: ${userInput}`;
+            chatHistory.appendChild(userMessage);
+            
+            // 启动流式传输
+            startStream(userInput);
+            // 清空输入框
+            document.getElementById('user_input').value = '';
+        }
+        //获取上传文件
+        function fetchUploadedFiles() {
+            fetch('/api/uploaded_files')
+                .then(response => response.json())
+                .then(files => {
+                    const fileList = document.getElementById('file_list');
+                    fileList.innerHTML = '';
+                    files.forEach(file => {
+                        const fileItem = document.createElement('li');
+                        //删除按钮
+                        fileItem.innerHTML = `
+                            ${file.name}
+                            <button onclick="deleteFile('${file.name}')">删除</button>
+                        `;
+                        fileList.appendChild(fileItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching files:', error));
+        }
+        //删除文件
+        function deleteFile(fileName) {
+            fetch(`/api/delete_file?file_name=${fileName}`, { method: 'DELETE' })
+                .then(response => {
+                    if (response.ok) {
+                        //更新文件列表
+                        fetchUploadedFiles(); 
+                    } else {
+                        console.error('Error deleting file:', response.statusText);
+                    }
+                })
+                .catch(error => console.error('Error deleting file:', error));
+        }
+        //监测文件是否被添加
+        document.addEventListener('DOMContentLoaded', fetchUploadedFiles);
+    </script>
+    <div id="container">
+        <div id="sidebar">
+            <h2>已上传文件</h2>
+            <ul id="file_list"></ul>
+            <a href="{{ url_for('upload_file') }}">上传知识库文件</a>
+            <a href="{{ url_for('logout') }}">登出</a>
+        </div>
+        <div id="main">
+            <h1>你好, {{ username }}!</h1>
+            <div>
+                <h2>对话历史</h2>
+                <div id="chat_history">
+                    {% for message in chat_history %}
+                        {% if message.user == 'user' %}
+                            <div class="chat-bubble user">
+                                <strong> {{ username }} </strong>: {{ message.text }}
+                            </div>
+                        {% else %}
+                            <div class="chat-bubble ai">
+                                <strong> {{ message.user }} </strong>: {{ message.text }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <form>
+                <label for="user_input">输入:</label>
+                <input type="text" id="user_input" name="user_input" required>
+                <button type="button" onclick="sendMessage()">Send</button>
+                
+            </form>
+            
+        </div>
+    </div>
+</body>
+</html>

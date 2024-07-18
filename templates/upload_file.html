@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload_file</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+            margin-top: 20px;
+        }
+
+        h2 {
+            color: #555;
+        }
+
+        #chat_history {
+            /* 其他样式保持不变 */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* 这将确保气泡在容器内开始位置对齐 */
+            width: 100%; /* 确保聊天历史容器占满宽度 */
+            padding: 20px; /* 根据需要添加内边距 */
+            box-sizing: border-box; /* 边框计算在宽度内 */
+        }
+
+        .chat-bubble {
+            display: inline-block;
+            position: relative;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            max-width: 70%;
+            font-size: 14px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            clear: both; /* 清除浮动，确保气泡不会重叠 */
+        }
+
+        .chat-bubble.user {
+            background-color: #00C9A7; /* 用户气泡颜色 */
+            float: right; /* 用户气泡靠右 */
+            margin-left: 10px; /* 左侧间距 */
+        }
+
+        .chat-bubble.ai {
+            background-color: #EEEEFF; /* AI气泡颜色 */
+            float: left; /* AI气泡靠左 */
+            margin-right: 10px; /* 右侧间距 */
+        }
+
+        .chat-bubble::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+
+        .chat-bubble.user::before {
+            top: 50%;
+            left: -15px; /* 用户气泡尖角向左 */
+            border-width: 15px 15px 15px 0;
+            border-color: transparent #00C9A7 transparent transparent;
+            transform: translateY(-50%);c
+        }
+
+        .chat-bubble.ai::before {
+            top: 50%;
+            right: -15px; /* AI气泡尖角向右 */
+            border-width: 15px 0 15px 15px;
+            border-color: transparent transparent transparent #EEEEFF;
+            transform: translateY(-50%);
+        }
+
+        form {
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+            margin-top: 20px;
+            display: block;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<h1>上传知识库文件:</h1>
+<form method="post" action="{{ url_for('upload_file') }}" enctype="multipart/form-data">
+    <label for="file">选择文件(*.docx,*.txt,*.pdf):</label>
+    <input type="file" id="file" name="file">
+    <button type="submit">上传</button>
+</form>
+<a href="{{ url_for('profile') }}">返回对话</a>
+<a>{{ inform }}!</a>
+</body>
+</html>

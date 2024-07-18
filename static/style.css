@@ -1,0 +1,32 @@
+/* Add any custom styles here */
+body {
+    font-family: Arial, sans-serif;
+}
+h1 {
+    color: #333;
+}
+form {
+    margin-top: 20px;
+}
+label {
+    display: block;
+    margin-top: 10px;
+}
+input {
+    margin-top: 5px;
+    padding: 5px;
+    width: 200px;
+}
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+}
+a {
+    display: block;
+    margin-top: 10px;
+    color: #007BFF;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}

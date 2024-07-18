@@ -1,0 +1,194 @@
+/* 现有的 body 样式 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row; /* 修改 flex-direction 为 row */
+}
+
+/* 新增的 container 样式 */
+#container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+/* 新增的 sidebar 样式 */
+#sidebar {
+    width: 250px;
+    background-color: #e4e4e9; /* 背景色 */
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* 添加 box-sizing 以包含 padding */
+    bottom: 0;
+    top:0;
+}
+
+#sidebar h2 {
+    margin-top: 0;
+}
+
+#file_list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#file_list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0;
+    padding: 5px 10px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#file_list li button {
+    background: #ff4b4b;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#file_list li button:hover {
+    background: #ff1c1c;
+}
+
+#file_list li:hover {
+    background-color: #dcdcdc; /* 悬停时背景色 */
+}
+
+/* main 样式 */
+#main {
+    flex: 1;
+    padding: 20px;
+}
+
+/* 现有的其他样式保持不变 */
+h1 {
+    color: #4CAF50;
+    margin-top: 20px;
+}
+
+h2 {
+    color: #555;
+}
+
+#chat_history {
+    width: 85%;
+    padding: 0px;
+    box-sizing: border-box;
+    margin-bottom: 120px;
+    flex-grow: 1;
+    overflow-x:hidden;
+}
+
+.chat-bubble {
+    display: inline-block;
+    position: relative;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    max-width: 70%;
+    font-size: 14px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    clear: both;
+}
+
+.chat-bubble.user {
+    background-color: #52bf55a9; /* 用户气泡颜色 */
+    float: right; /* 用户气泡靠右 */
+    margin-left: 10px; /* 左侧间距 */
+}
+
+.chat-bubble.ai {
+    background-color: #ffffff; /* AI气泡颜色 */
+    float: left; /* AI气泡靠左 */
+    margin-right: 10px; /* 右侧间距 */
+}
+
+.chat-bubble::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+.chat-bubble.user::before {
+    top: 50%;
+    right: -15px; /* 用户气泡尖角向右 */
+    border-width: 15px 0 15px 15px;
+    border-color: transparent transparent transparent #4CAF50;
+    transform: translateY(-50%);
+}
+
+.chat-bubble.ai::before {
+    top: 50%;
+    left: -15px; /* AI气泡尖角向左 */
+    border-width: 15px 15px 15px 0;
+    border-color: transparent #ffffff transparent transparent;
+    transform: translateY(-50%);
+}
+
+form {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: calc(80% - 240px); /* 考虑到padding */
+    position: fixed;
+    bottom: 10px;
+    left: 200px;
+    right: 70px;
+    margin: auto;
+    max-height: 160px;
+    z-index: 1000; /* 确保在其他元素上方 */
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    background: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #45a049;
+}
+
+a {
+    color: #4CAF50;
+    text-decoration: none;
+    margin-top: 20px;
+    display: block;
+}
+
+a:hover {
+    text-decoration: underline;
+}
